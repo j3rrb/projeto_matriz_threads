@@ -17,7 +17,7 @@ int main()
         initializeMatrix(&Y, 5, 5);
         fillMatrix(&Y);
 
-        multiplyTMatrices(&Z, &Y, &A, "Matrix A (ZxY) Thread");
+        multiplyTMatrices(&Z, &Y, &A, "Matrix A (ZxY)");
         multiplyMatrices(&Z, &Y, &A, "Matrix A (ZxY)");
 
         printMatrix(&A);
@@ -31,7 +31,7 @@ int main()
         initializeMatrix(&X, 100, 100);
         fillMatrix(&X);
 
-        multiplyTMatrices(&W, &X, &B, "Matrix B (XxB) Thread");
+        multiplyTMatrices(&W, &X, &B, "Matrix B (XxB)");
         multiplyMatrices(&W, &X, &B, "Matrix B (XxB)");
         printf("\n");
     }
@@ -43,7 +43,7 @@ int main()
         initializeMatrix(&V, 1000, 1000);
         fillMatrix(&V);
 
-        multiplyTMatrices(&U, &V, &C, "Matrix C (UxV) Thread");
+        multiplyTMatrices(&U, &V, &C, "Matrix C (UxV)");
         multiplyMatrices(&U, &V, &C, "Matrix C (UxV)");
         printf("\n");
     }
@@ -55,7 +55,7 @@ int main()
         initializeMatrix(&T, 2000, 2000);
         fillMatrix(&T);
 
-        multiplyTMatrices(&S, &T, &D, "Matrix D (SxT) Thread");
+        multiplyTMatrices(&S, &T, &D, "Matrix D (SxT)");
         multiplyMatrices(&S, &T, &D, "Matrix D (SxT)");
         printf("\n");
     }
@@ -67,7 +67,7 @@ int main()
         initializeMatrix(&R, 3000, 3000);
         fillMatrix(&R);
 
-        multiplyTMatrices(&Q, &R, &E, "Matrix E (QxR) Thread");
+        multiplyTMatrices(&Q, &R, &E, "Matrix E (QxR)");
         multiplyMatrices(&Q, &R, &E, "Matrix E (QxR)");
         printf("\n");
     }

@@ -94,34 +94,43 @@ void multiplyTMatrices(const Matrix *m1, const Matrix *m2, Matrix *res, char *pr
     int endRow = 0;
 
     {
-        clock_t start = clock();
-        for (int i = 0; i < MAX_THREADS; i++)
         {
-            endRow = startRow + chunkSize;
-            if (i == MAX_THREADS - 1)
+            clock_t creationStart = clock();
+            for (int i = 0; i < MAX_THREADS; i++)
             {
-                endRow = res->lines;
+                endRow = startRow + chunkSize;
+                if (i == MAX_THREADS - 1)
+                {
+                    endRow = res->lines;
+                }
+
+                args[i].m1 = m1;
+                args[i].m2 = m2;
+                args[i].res = res;
+                args[i].printName = printName;
+                args[i].startRow = startRow;
+                args[i].endRow = endRow;
+
+                pthread_create(&threads[i], NULL, tMultiply, &args[i]);
+
+                startRow = endRow;
             }
+            clock_t creationEnd = clock();
 
-            args[i].m1 = m1;
-            args[i].m2 = m2;
-            args[i].res = res;
-            args[i].printName = printName;
-            args[i].startRow = startRow;
-            args[i].endRow = endRow;
-
-            pthread_create(&threads[i], NULL, tMultiply, &args[i]);
-
-            startRow = endRow;
+            printf("Time taken for %s (threads creation) : %.6f secs\n", printName, (double)(creationEnd - creationStart) / CLOCKS_PER_SEC);
         }
 
-        for (int i = 0; i < MAX_THREADS; i++)
         {
-            pthread_join(threads[i], NULL);
-        }
-        clock_t end = clock();
+            clock_t joinStartTime = clock();
+            for (int i = 0; i < MAX_THREADS; i++)
+            {
+                pthread_join(threads[i], NULL);
+            }
+            clock_t joinStartEnd = clock();
 
-        printf("Time taken for %s: %.6f secs\n", printName, (double)(end - start) / CLOCKS_PER_SEC);
+            printf("Time taken for %s (threads join): %.6f secs\n", printName, (double)(joinStartEnd - joinStartTime) / CLOCKS_PER_SEC);
+        }
+
     }
 }
 
@@ -150,7 +159,7 @@ void multiplyMatrices(const Matrix *m1, const Matrix *m2, Matrix *res, char *pri
         }
         clock_t end = clock();
 
-        printf("Time taken for %s: %.6f secs\n", printName, ((double)(end - start)) / CLOCKS_PER_SEC);
+        printf("Time taken for %s (without threads): %.6f secs\n", printName, ((double)(end - start)) / CLOCKS_PER_SEC);
     }
 }
 
